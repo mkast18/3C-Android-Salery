@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Salary_Android-Studio-Project_MKast_MBrunmaier</string>
+    <string name="name">Name</string>
+    <string name="price">Price</string>
+    <string name="numbers">Numbers</string>
+    <string name="name">Name</string>
+    <string name="price">Price</string>
+    <string name="add_item">Add Item</string>
+    <string name="saved_items">Saved Items</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="add_shop">Add Shop</string>
+</resources>
