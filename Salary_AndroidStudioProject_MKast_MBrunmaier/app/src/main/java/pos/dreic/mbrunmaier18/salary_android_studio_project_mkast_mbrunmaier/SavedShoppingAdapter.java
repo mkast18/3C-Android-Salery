@@ -14,12 +14,12 @@ import java.util.List;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
-public class SavedShoppingAdapter extends ArrayAdapter<shoppingItem> {
-    private List<shoppingItem> shoppingList = new ArrayList<>();
+public class SavedShoppingAdapter extends ArrayAdapter<ShoppingItem> {
+    private List<ShoppingItem> shoppingList = new ArrayList<>();
     private int layoutId;
     private LayoutInflater inflater;
 
-    public SavedShoppingAdapter(@NonNull Context ctx, int layoutId, @NonNull List<shoppingItem> shoppingList) {
+    public SavedShoppingAdapter(@NonNull Context ctx, int layoutId, @NonNull List<ShoppingItem> shoppingList) {
         super(ctx,layoutId,shoppingList);
         this.shoppingList = shoppingList;
         this.layoutId = layoutId;
@@ -30,12 +30,12 @@ public class SavedShoppingAdapter extends ArrayAdapter<shoppingItem> {
         return shoppingList.size();
     }
     @Override
-    public shoppingItem getItem(int i) {
+    public ShoppingItem getItem(int i) {
         return shoppingList.get(i);
     }
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        shoppingItem item = shoppingList.get(i);
+        ShoppingItem item = shoppingList.get(i);
         View listItem = (view == null) ? inflater.inflate(this.layoutId, null) : view;
         ((TextView) listItem.findViewById(R.id.id_show_name)).setText(item.getName());
         ((TextView) listItem.findViewById(R.id.id_show_price)).setText(item.getPrice().toString());

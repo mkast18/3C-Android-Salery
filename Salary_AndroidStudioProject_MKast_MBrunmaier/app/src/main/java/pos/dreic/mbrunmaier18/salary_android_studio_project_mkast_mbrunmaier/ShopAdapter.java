@@ -40,7 +40,7 @@ public class ShopAdapter extends ArrayAdapter<Shop> {
     public View getView(int i, View view, ViewGroup viewGroup) {
         Shop shop = shopList.get(i);
         View listItem = (view == null) ? inflater.inflate(this.layoutId, null) : view;
-        ((TextView) listItem.findViewById(R.id.id_show_name)).setText(shop.getName());
+        ((TextView) listItem.findViewById(R.id.id_shop_name)).setText(shop.getName());
         return listItem;
     }
 }

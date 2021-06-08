@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Shop {
     private String name;
-    private List<shoppingItem> currentShoppingList;
-    private List<shoppingItem> savedShoppingItems;
+    private List<ShoppingItem> currentShoppingList;
+    private List<ShoppingItem> savedShoppingItems;
 
     public Shop(String name) {
         this.name = name;
@@ -22,19 +22,19 @@ public class Shop {
         this.name = name;
     }
 
-    public List<shoppingItem> getCurrentShoppingList() {
+    public List<ShoppingItem> getCurrentShoppingList() {
         return currentShoppingList;
     }
 
-    public void setCurrentShoppingList(List<shoppingItem> currentShoppingList) {
+    public void setCurrentShoppingList(List<ShoppingItem> currentShoppingList) {
         this.currentShoppingList = currentShoppingList;
     }
 
-    public List<shoppingItem> getSavedShoppingItems() {
+    public List<ShoppingItem> getSavedShoppingItems() {
         return savedShoppingItems;
     }
 
-    public void setSavedShoppingItems(List<shoppingItem> savedShoppingItems) {
+    public void setSavedShoppingItems(List<ShoppingItem> savedShoppingItems) {
         this.savedShoppingItems = savedShoppingItems;
     }
 }
