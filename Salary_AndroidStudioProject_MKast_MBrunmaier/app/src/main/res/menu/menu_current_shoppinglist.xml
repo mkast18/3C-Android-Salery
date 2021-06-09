@@ -14,4 +14,10 @@
         android:title="@string/saved_items"
         app:showAsAction="always"
         />
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/ic_home"
+        android:title="Home"
+        app:showAsAction="always"
+        />
 </menu>

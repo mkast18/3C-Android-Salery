@@ -23,6 +23,7 @@ import java.util.List;
 
 public class ShopActivity extends AppCompatActivity {
     public Shop shop;
+    public int position;
     public ListView listView_shoppinglist;
     public List<ShoppingItem> shoppingList = new ArrayList();
     public CurrentShoppingAdapter shoppingAdapter;
@@ -37,8 +38,9 @@ public class ShopActivity extends AppCompatActivity {
         registerForContextMenu(listView_shoppinglist);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        int position = Integer.parseInt(bundle.getString("current Shop"));
+        this.position = Integer.parseInt(bundle.getString("current Shop"));
         shop = MainActivity.shopList.get(position);
+        shoppingList = shop.getCurrentShoppingList();
     }
 
     @Override
@@ -63,7 +65,7 @@ public class ShopActivity extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (id){
             case R.id.context_delete:
-                shop.getCurrentShoppingList().remove(listView_shoppinglist.getAdapter().getItem(info.position));
+                shoppingList.remove(listView_shoppinglist.getAdapter().getItem(info.position));
                 listView_shoppinglist.setAdapter(shoppingAdapter);
                 break;
             case R.id.context_edit:
@@ -84,10 +86,10 @@ public class ShopActivity extends AppCompatActivity {
                         .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                int previousSize = shop.getCurrentShoppingList().size();
-                                shop.getCurrentShoppingList().add(new ShoppingItem(shoppingItem.getName(),shoppingItem.getNumbers(),shoppingItem.getPrice()));
-                                if (previousSize + 1 == shop.getCurrentShoppingList().size()) {
-                                    shop.getCurrentShoppingList().remove(shop);
+                                int previousSize = shoppingList.size();
+                                shoppingList.add(new ShoppingItem(shoppingItem.getName(),shoppingItem.getNumbers(),shoppingItem.getPrice()));
+                                if (previousSize + 1 == shoppingList.size()) {
+                                    shoppingList.remove(shoppingItem);
                                 }
                             }
                         })
@@ -131,6 +133,11 @@ public class ShopActivity extends AppCompatActivity {
                 break;
             case R.id.menu_save:
                 //api Überlegung
+                break;
+
+            case R.id.menu_home:
+                MainActivity.shopList.get(position).setCurrentShoppingList(shoppingList);
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
