@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements Serializable{
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String name = editText_shop.getText().toString();
-                                Shop shop = new Shop(name);
+                                Shop shop = new Shop("Spar");
                                 shopList.add(shop);
                                 listView_shops.setAdapter(shopAdapter);
                             }
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements Serializable{
 
     public void startActivity(int position) {
         Intent intent = new Intent(this, ShopActivity.class);
-        intent.putExtra("current Shop", position);
+        intent.putExtra("current Shop", "0");
         startActivity(intent);
     }
 }

@@ -38,8 +38,8 @@ public class CurrentShoppingAdapter extends ArrayAdapter<ShoppingItem> {
         ShoppingItem item = shoppingList.get(i);
         View listItem = (view == null) ? inflater.inflate(this.layoutId, null) : view;
         ((TextView) listItem.findViewById(R.id.id_show_name)).setText(item.getName());
-        ((TextView) listItem.findViewById(R.id.id_show_numbers)).setText(item.getNumbers());
-        ((TextView) listItem.findViewById(R.id.id_show_price)).setText(item.getPrice().toString());
+        ((TextView) listItem.findViewById(R.id.id_show_numbers)).setText(item.getNumbers()+"x");
+        ((TextView) listItem.findViewById(R.id.id_show_price)).setText(item.getPrice().toString()+"€");
         return listItem;
     }
 }
