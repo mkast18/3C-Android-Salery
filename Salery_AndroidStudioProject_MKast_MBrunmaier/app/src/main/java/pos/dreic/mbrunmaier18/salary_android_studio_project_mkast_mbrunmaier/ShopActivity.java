@@ -33,14 +33,14 @@ public class ShopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_shoppinglist);
         listView_shoppinglist = findViewById(R.id.id_list_current_shopping);
-        shoppingAdapter = new CurrentShoppingAdapter(this,R.layout.layout_current_shoppinglist,shoppingList);
-        listView_shoppinglist.setAdapter(shoppingAdapter);
-        registerForContextMenu(listView_shoppinglist);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         this.position = Integer.parseInt(bundle.getString("current Shop"));
         shop = MainActivity.shopList.get(position);
         shoppingList = shop.getCurrentShoppingList();
+        shoppingAdapter = new CurrentShoppingAdapter(this,R.layout.layout_current_shoppinglist,shoppingList);
+        listView_shoppinglist.setAdapter(shoppingAdapter);
+        registerForContextMenu(listView_shoppinglist);
     }
 
     @Override
