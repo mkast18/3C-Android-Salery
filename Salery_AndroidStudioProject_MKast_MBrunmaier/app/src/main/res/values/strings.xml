@@ -9,5 +9,7 @@
     <string name="delete">Delete</string>
     <string name="add_shop">Add Shop</string>
     <string name="shop_name">Shop Name</string>
+    <string name="add">ADD</string>
+    <string name="cancel">CANCEL</string>
 
 </resources>

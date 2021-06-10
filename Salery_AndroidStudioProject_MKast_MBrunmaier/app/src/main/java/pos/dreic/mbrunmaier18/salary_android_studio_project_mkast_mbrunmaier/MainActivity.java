@@ -103,7 +103,9 @@ public class MainActivity extends AppCompatActivity implements Serializable{
 
         switch (id){
             case R.id.menu_add:
-                LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+                Intent intent = new Intent(this, AddShopActivity.class);
+                startActivity(intent);
+                /*LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
                 View listItem =  inflater.inflate(R.layout.layout_add_shop, null);
 
                 EditText editText_shop = listItem.findViewById(R.id.editText_add_shopName);
@@ -121,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements Serializable{
                         })
                         .setNegativeButton("CHANCEL",null)
                         .show();
-                System.out.println();
+                System.out.println();*/
         }
         return super.onOptionsItemSelected(item);
     }
