@@ -23,7 +23,6 @@ import java.util.List;
 
 public class ShopActivity extends AppCompatActivity {
     public Shop shop;
-    public int position;
     public ListView listView_shoppinglist;
     public List<ShoppingItem> shoppingList = new ArrayList();
     public CurrentShoppingAdapter shoppingAdapter;
@@ -33,14 +32,12 @@ public class ShopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_shoppinglist);
         listView_shoppinglist = findViewById(R.id.id_list_current_shopping);
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        this.position = Integer.parseInt(bundle.getString("current Shop"));
-        shop = MainActivity.shopList.get(position);
+        shop = getIntent().getParcelableExtra("shop");
         shoppingList = shop.getCurrentShoppingList();
         shoppingAdapter = new CurrentShoppingAdapter(this,R.layout.layout_current_shoppinglist,shoppingList);
         listView_shoppinglist.setAdapter(shoppingAdapter);
         registerForContextMenu(listView_shoppinglist);
+
     }
 
     @Override
@@ -136,7 +133,12 @@ public class ShopActivity extends AppCompatActivity {
                 break;
 
             case R.id.menu_home:
-                MainActivity.shopList.get(position).setCurrentShoppingList(shoppingList);
+                shop.setCurrentShoppingList(shoppingList);
+                int index = -1;
+                for (int i = 0;i<MainActivity.shopList.size();i++){
+                    if(shop.getName().equals(MainActivity.shopList.get(i)))index = i;
+                }
+                MainActivity.shopList.get(index).setCurrentShoppingList(shoppingList);
                 finish();
                 break;
         }

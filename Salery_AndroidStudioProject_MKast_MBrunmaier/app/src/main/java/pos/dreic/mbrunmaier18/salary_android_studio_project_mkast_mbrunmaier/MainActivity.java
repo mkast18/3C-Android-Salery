@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         listView_shops.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(position);
+                startActivity(shopList.get(position),ShopActivity.class);
             }
         });
     }
@@ -70,27 +70,13 @@ public class MainActivity extends AppCompatActivity implements Serializable{
                 listView_shops.setAdapter(shopAdapter);
                 break;
             case R.id.context_edit:
-                Shop shop = (Shop) listView_shops.getAdapter().getItem(info.position);
-                LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-                View listItem =  inflater.inflate(R.layout.layout_add_shop, null);
+                Shop shop = shopList.get(info.position);
+                int previousSize = shopList.size();
+                startActivity(shop,AddShopActivity.class);
+                if (previousSize + 1 == shopList.size()) {
+                    shopList.remove(shop);
+                }
 
-                EditText editText_shop = listItem.findViewById(R.id.editText_add_shopName);
-                editText_shop.setText(shop.getName());
-
-                buildDialog(shop.getName(),null)
-                        .setView(R.layout.layout_add_shop)
-                        .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                int previousSize = shopList.size();
-                                shopList.add(new Shop(editText_shop.getText().toString()));
-                                if (previousSize + 1 == shopList.size()) {
-                                    shopList.remove(shop);
-                                }
-                            }
-                        })
-                        .setNegativeButton("CHANCEL",null)
-                        .show();
                 break;
         }
         return super.onContextItemSelected(item);
@@ -103,27 +89,9 @@ public class MainActivity extends AppCompatActivity implements Serializable{
 
         switch (id){
             case R.id.menu_add:
-                Intent intent = new Intent(this, AddShopActivity.class);
-                startActivity(intent);
-                /*LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-                View listItem =  inflater.inflate(R.layout.layout_add_shop, null);
-
-                EditText editText_shop = listItem.findViewById(R.id.editText_add_shopName);
-
-                buildDialog("Add new Shop-List",null)
-                        .setView(R.layout.layout_add_shop)
-                        .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String name = editText_shop.getText().toString();
-                                Shop shop = new Shop("Spar");
-                                shopList.add(shop);
-                                listView_shops.setAdapter(shopAdapter);
-                            }
-                        })
-                        .setNegativeButton("CHANCEL",null)
-                        .show();
-                System.out.println();*/
+                Shop shop = new Shop("");
+                startActivity(shop,AddShopActivity.class);
+                shopAdapter.notifyDataSetChanged();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -132,23 +100,9 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         return new AlertDialog.Builder(this).setTitle(title).setMessage(message);
     }
 
-    class SuperMessage implements Serializable {
-        private Shop shop;
-
-        public SuperMessage(Shop shop) {
-            this.shop = shop;
-        }
-        public Shop getMsg() {
-            return shop;
-        }
-        public void setMsg(Shop msg) {
-            this.shop = msg;
-        }
-    }
-
-    public void startActivity(int position) {
-        Intent intent = new Intent(this, ShopActivity.class);
-        intent.putExtra("current Shop", "0");
+    public void startActivity(Shop shop, Class cls) {
+        Intent intent = new Intent(this, cls);
+        intent.putExtra("shop", shop);
         startActivity(intent);
     }
 }
