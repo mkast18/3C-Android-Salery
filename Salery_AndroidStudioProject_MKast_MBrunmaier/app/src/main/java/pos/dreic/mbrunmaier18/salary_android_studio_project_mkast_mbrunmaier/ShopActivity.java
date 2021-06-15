@@ -24,7 +24,7 @@ import java.util.List;
 public class ShopActivity extends AppCompatActivity {
     public Shop shop;
     public ListView listView_shoppinglist;
-    public List<ShoppingItem> shoppingList = new ArrayList();
+    public static List<ShoppingItem> shoppingList = new ArrayList();
     public CurrentShoppingAdapter shoppingAdapter;
 
     @Override
@@ -104,29 +104,8 @@ public class ShopActivity extends AppCompatActivity {
 
         switch (id){
             case R.id.menu_add_item:
-                LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-                View listItem =  inflater.inflate(R.layout.layout_add_shoppingitem, null);
-
-                EditText editText_itemName = listItem.findViewById(R.id.editText_add_shoppingItemName);
-                EditText editText_itemNumber = listItem.findViewById(R.id.editText_add_shoppingItemNumber);
-                EditText editText_itemPrice = listItem.findViewById(R.id.editText_add_shoppingItemPrice);
-
-                buildDialog("Add new Shop-List",null)
-                        .setView(R.layout.layout_add_shoppingitem)
-                        .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String name = editText_itemName.getText().toString();
-                                String number = editText_itemNumber.getText().toString();
-                                String price = editText_itemPrice.getText().toString();
-                                //ShoppingItem item = new ShoppingItem(name,number,Double.parseDouble(price));
-                                ShoppingItem item = new ShoppingItem("Spar","2",2.30);
-                                shoppingList.add(item);
-                                listView_shoppinglist.setAdapter(shoppingAdapter);
-                            }
-                        })
-                        .setNegativeButton("CHANCEL",null)
-                        .show();
+                    ShoppingItem ite = new ShoppingItem("","",0.00);
+                    startActivity(ite,AddShoppingItemActivity.class);
                 break;
             case R.id.menu_save:
                 //api Überlegung
@@ -134,7 +113,7 @@ public class ShopActivity extends AppCompatActivity {
 
             case R.id.menu_home:
                 shop.setCurrentShoppingList(shoppingList);
-                int index = -1;
+                int index = 0;
                 for (int i = 0;i<MainActivity.shopList.size();i++){
                     if(shop.getName().equals(MainActivity.shopList.get(i)))index = i;
                 }
@@ -147,5 +126,11 @@ public class ShopActivity extends AppCompatActivity {
 
     public AlertDialog.Builder buildDialog(String title, String message){
         return new AlertDialog.Builder(this).setTitle(title).setMessage(message);
+    }
+
+    public void startActivity(ShoppingItem item, Class cls) {
+        Intent intent = new Intent(this, cls);
+        intent.putExtra("item", item);
+        startActivity(intent);
     }
 }

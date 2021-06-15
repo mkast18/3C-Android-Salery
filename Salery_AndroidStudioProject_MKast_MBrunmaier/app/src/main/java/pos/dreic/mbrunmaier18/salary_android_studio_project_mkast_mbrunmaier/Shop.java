@@ -26,7 +26,7 @@ public class Shop implements Parcelable {
     public static final Creator<Shop> CREATOR = new Creator<Shop>() {
         @Override
         public Shop createFromParcel(Parcel in) {
-            return new Shop(in);
+             return new Shop(in);
         }
 
         @Override
@@ -67,7 +67,7 @@ public class Shop implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
-        dest.writeList(currentShoppingList);
-        dest.writeList(savedShoppingItems);
+        dest.writeTypedList(currentShoppingList);
+        dest.writeTypedList(savedShoppingItems);
     }
 }
