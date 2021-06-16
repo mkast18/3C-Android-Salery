@@ -32,7 +32,7 @@ public class ShopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_shoppinglist);
         listView_shoppinglist = findViewById(R.id.id_list_current_shopping);
-        shop = getIntent().getParcelableExtra("shop");
+        shop = (Shop) getIntent().getSerializableExtra("shop");
         shoppingList = shop.getCurrentShoppingList();
         shoppingAdapter = new CurrentShoppingAdapter(this,R.layout.layout_current_shoppinglist,shoppingList);
         listView_shoppinglist.setAdapter(shoppingAdapter);
@@ -115,7 +115,7 @@ public class ShopActivity extends AppCompatActivity {
                 shop.setCurrentShoppingList(shoppingList);
                 int index = 0;
                 for (int i = 0;i<MainActivity.shopList.size();i++){
-                    if(shop.getName().equals(MainActivity.shopList.get(i)))index = i;
+                    if(shop.getName().equals(MainActivity.shopList.get(i).getName()))index = i;
                 }
                 MainActivity.shopList.get(index).setCurrentShoppingList(shoppingList);
                 finish();

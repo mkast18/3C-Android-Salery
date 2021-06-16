@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements Serializable{
             case R.id.context_edit:
                 Shop shop = shopList.get(info.position);
                 int previousSize = shopList.size();
+
                 startActivity(shop,AddShopActivity.class);
                 if (previousSize + 1 == shopList.size()) {
                     shopList.remove(shop);
