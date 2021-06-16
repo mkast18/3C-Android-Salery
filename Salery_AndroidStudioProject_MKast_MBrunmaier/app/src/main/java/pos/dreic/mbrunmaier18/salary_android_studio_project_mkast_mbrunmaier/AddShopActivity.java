@@ -19,7 +19,7 @@ public class AddShopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_shop);
-        shop = getIntent().getParcelableExtra("shop");
+        shop = (Shop) getIntent().getSerializableExtra("shop");
 
         editText_shopName = findViewById(R.id.editText_add_shop_Name);
         textView_shopName = findViewById(R.id.textView_add_shop_Name);

@@ -18,7 +18,7 @@ public class AddShoppingItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_shopping_item);
-        item = getIntent().getParcelableExtra("item");
+        item = (ShoppingItem) getIntent().getSerializableExtra("item");
 
         editText_item_name = findViewById(R.id.editText_add_shoppingItemName);
         editText_item_number = findViewById(R.id.editText_add_shoppingItemNumber);
