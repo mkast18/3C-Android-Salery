@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class ShopActivity extends AppCompatActivity {
         shoppingAdapter = new CurrentShoppingAdapter(this,R.layout.layout_current_shoppinglist,shoppingList);
         listView_shoppinglist.setAdapter(shoppingAdapter);
         registerForContextMenu(listView_shoppinglist);
-
+        showTotalPrice();
     }
 
     @Override
@@ -63,7 +64,8 @@ public class ShopActivity extends AppCompatActivity {
         switch (id){
             case R.id.context_delete:
                 shoppingList.remove(listView_shoppinglist.getAdapter().getItem(info.position));
-                listView_shoppinglist.setAdapter(shoppingAdapter);
+                shoppingAdapter.notifyDataSetChanged();
+                showTotalPrice();
                 break;
             case R.id.context_edit:
                 ShoppingItem shoppingItem = (ShoppingItem) listView_shoppinglist.getAdapter().getItem(info.position);
@@ -92,6 +94,8 @@ public class ShopActivity extends AppCompatActivity {
                         })
                         .setNegativeButton("CHANCEL",null)
                         .show();
+                shoppingAdapter.notifyDataSetChanged();
+                showTotalPrice();
                 break;
         }
         return super.onContextItemSelected(item);
@@ -106,6 +110,8 @@ public class ShopActivity extends AppCompatActivity {
             case R.id.menu_add_item:
                     ShoppingItem ite = new ShoppingItem("","",0.00);
                     startActivity(ite,AddShoppingItemActivity.class);
+                    shoppingAdapter.notifyDataSetChanged();
+
                 break;
             case R.id.menu_save:
                 //api Überlegung
@@ -121,11 +127,28 @@ public class ShopActivity extends AppCompatActivity {
                 finish();
                 break;
         }
+        showTotalPrice();
         return super.onOptionsItemSelected(item);
     }
 
     public AlertDialog.Builder buildDialog(String title, String message){
         return new AlertDialog.Builder(this).setTitle(title).setMessage(message);
+    }
+
+    public void showTotalPrice(){
+        TextView showPrice =  findViewById(R.id.textView_show_total_price);
+        double price = 0;
+        if(!shoppingList.isEmpty()) {
+            for (ShoppingItem item : shoppingList) {
+
+                price += (item.getPrice()*Integer.parseInt(item.getNumbers()));
+            }
+            showPrice.setText(price+"€");
+        }else{
+            showPrice.setText("Keine Einträge");
+        }
+
+
     }
 
     public void startActivity(ShoppingItem item, Class cls) {

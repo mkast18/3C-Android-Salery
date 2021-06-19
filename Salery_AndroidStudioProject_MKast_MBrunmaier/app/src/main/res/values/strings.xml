@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Salary_Android-Studio-Project_MKast_MBrunmaier</string>
+    <string name="app_name">Salary</string>
     <string name="name">Name</string>
     <string name="price">Price</string>
     <string name="numbers">Numbers</string>
