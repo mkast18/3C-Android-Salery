@@ -25,6 +25,7 @@ import java.util.List;
 public class ShopActivity extends AppCompatActivity {
     public Shop shop;
     public ListView listView_shoppinglist;
+    public static TextView showPrice;
     public static List<ShoppingItem> shoppingList = new ArrayList();
     public CurrentShoppingAdapter shoppingAdapter;
 
@@ -32,6 +33,7 @@ public class ShopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_shoppinglist);
+        showPrice =  findViewById(R.id.textView_show_total_price);
         listView_shoppinglist = findViewById(R.id.id_list_current_shopping);
         shop = (Shop) getIntent().getSerializableExtra("shop");
         shoppingList = shop.getCurrentShoppingList();
@@ -68,34 +70,11 @@ public class ShopActivity extends AppCompatActivity {
                 showTotalPrice();
                 break;
             case R.id.context_edit:
-                ShoppingItem shoppingItem = (ShoppingItem) listView_shoppinglist.getAdapter().getItem(info.position);
-                LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-                View listItem =  inflater.inflate(R.layout.layout_add_shoppingitem, null);
 
-                EditText editText_itemName = listItem.findViewById(R.id.editText_add_shoppingItemName);
-                EditText editText_itemNumber = listItem.findViewById(R.id.editText_add_shoppingItemNumber);
-                EditText editText_itemPrice = listItem.findViewById(R.id.editText_add_shoppingItemPrice);
-
-                editText_itemName.setText(shoppingItem.getName());
-                editText_itemNumber.setText(shoppingItem.getNumbers());
-                editText_itemPrice.setText("1");
-
-                buildDialog(shoppingItem.getName(),null)
-                        .setView(R.layout.layout_add_shoppingitem)
-                        .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                int previousSize = shoppingList.size();
-                                shoppingList.add(new ShoppingItem(shoppingItem.getName(),shoppingItem.getNumbers(),shoppingItem.getPrice()));
-                                if (previousSize + 1 == shoppingList.size()) {
-                                    shoppingList.remove(shoppingItem);
-                                }
-                            }
-                        })
-                        .setNegativeButton("CHANCEL",null)
-                        .show();
+                ShoppingItem shoppingItem = shoppingList.get(info.position);
+                int previousSize = shoppingList.size();
+                startActivity(shoppingItem,AddShoppingItemActivity.class);
                 shoppingAdapter.notifyDataSetChanged();
-                showTotalPrice();
                 break;
         }
         return super.onContextItemSelected(item);
@@ -108,9 +87,9 @@ public class ShopActivity extends AppCompatActivity {
 
         switch (id){
             case R.id.menu_add_item:
-                    ShoppingItem ite = new ShoppingItem("","",0.00);
-                    startActivity(ite,AddShoppingItemActivity.class);
-                    shoppingAdapter.notifyDataSetChanged();
+                ShoppingItem ite = new ShoppingItem("","",0.00);
+                startActivity(ite,AddShoppingItemActivity.class);
+                shoppingAdapter.notifyDataSetChanged();
 
                 break;
             case R.id.menu_save:
@@ -127,7 +106,6 @@ public class ShopActivity extends AppCompatActivity {
                 finish();
                 break;
         }
-        showTotalPrice();
         return super.onOptionsItemSelected(item);
     }
 
@@ -135,8 +113,7 @@ public class ShopActivity extends AppCompatActivity {
         return new AlertDialog.Builder(this).setTitle(title).setMessage(message);
     }
 
-    public void showTotalPrice(){
-        TextView showPrice =  findViewById(R.id.textView_show_total_price);
+    public static void showTotalPrice(){
         double price = 0;
         if(!shoppingList.isEmpty()) {
             for (ShoppingItem item : shoppingList) {

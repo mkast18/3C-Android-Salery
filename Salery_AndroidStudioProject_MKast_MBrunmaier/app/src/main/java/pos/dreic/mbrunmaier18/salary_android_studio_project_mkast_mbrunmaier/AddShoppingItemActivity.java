@@ -28,27 +28,72 @@ public class AddShoppingItemActivity extends AppCompatActivity {
             editText_item_name.setText(item.getName());
             editText_item_number.setText(item.getNumbers());
             editText_item_price.setText(item.getPrice().toString());
+
+            add_Button = findViewById(R.id.id_add_shopping_Button);
+            cancel_Button = findViewById(R.id.id_cancel_shopping_Button);
+            add_Button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (int i = 0; i < ShopActivity.shoppingList.size();i++){
+                        ShoppingItem shoppingItem = ShopActivity.shoppingList.get(i);
+                        if(item.getName().equals(shoppingItem.getName())){
+                            ShopActivity.shoppingList.get(i).setName(editText_item_name.getText().toString());
+                            ShopActivity.shoppingList.get(i).setNumbers(editText_item_number.getText().toString());
+                            ShopActivity.shoppingList.get(i).setPrice(Double.parseDouble(editText_item_price.getText().toString()));
+                        }
+                    }
+                    ShopActivity.showTotalPrice();
+                    finish();
+                }
+            });
+
+            cancel_Button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ShopActivity.showTotalPrice();
+                    finish();
+                }
+            });
+        }else {
+
+
+
+            add_Button = findViewById(R.id.id_add_shopping_Button);
+            cancel_Button = findViewById(R.id.id_cancel_shopping_Button);
+            add_Button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String name = editText_item_name.getText().toString();
+                    String numbers = editText_item_number.getText().toString();
+                    String price = editText_item_price.getText().toString();
+
+                    boolean b = true;
+                    for (int i = 0; i < ShopActivity.shoppingList.size();i++){
+                    ShoppingItem shoppingItem = ShopActivity.shoppingList.get(i);
+                        if(name.equals(shoppingItem.getName()) && Double.parseDouble(price) == shoppingItem.getPrice()){
+                            ShopActivity.shoppingList.get(i).setNumbers(""+(Integer.parseInt(shoppingItem.getNumbers()) + Integer.parseInt(numbers)));
+                            b = false;
+                            ShopActivity.showTotalPrice();
+                            finish();
+                        }
+                    }
+                    if(b) {
+                        ShoppingItem item = new ShoppingItem(name, numbers, Double.parseDouble(price));
+                        ShopActivity.shoppingList.add(item);
+                        ShopActivity.showTotalPrice();
+                    }
+                    ShopActivity.showTotalPrice();
+                    finish();
+                }
+            });
+
+            cancel_Button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ShopActivity.showTotalPrice();
+                    finish();
+                }
+            });
         }
-
-        add_Button = findViewById(R.id.id_add_shopping_Button);
-        cancel_Button = findViewById(R.id.id_cancel_shopping_Button);
-        add_Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String itemName = editText_item_name.getText().toString();
-                String itemNumbers = editText_item_number.getText().toString();
-                String itemPrice = editText_item_price.getText().toString();
-                ShoppingItem item = new ShoppingItem(itemName,itemNumbers,Double.parseDouble(itemPrice));
-                ShopActivity.shoppingList.add(item);
-                finish();
-            }
-        });
-
-        cancel_Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 }
