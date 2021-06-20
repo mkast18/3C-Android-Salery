@@ -63,15 +63,19 @@ public class ShopActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         int id = item.getItemId();
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        ShoppingItem shoppingItem = shoppingList.get(info.position);
         switch (id){
+            case R.id.context_save:
+                if(!shop.getSavedShoppingItems().contains(shoppingItem)){
+                    shop.getSavedShoppingItems().add(shoppingItem);
+                }
+                break;
             case R.id.context_delete:
                 shoppingList.remove(listView_shoppinglist.getAdapter().getItem(info.position));
                 shoppingAdapter.notifyDataSetChanged();
                 showTotalPrice();
                 break;
             case R.id.context_edit:
-
-                ShoppingItem shoppingItem = shoppingList.get(info.position);
                 int previousSize = shoppingList.size();
                 startActivity(shoppingItem,AddShoppingItemActivity.class);
                 shoppingAdapter.notifyDataSetChanged();
@@ -93,7 +97,9 @@ public class ShopActivity extends AppCompatActivity {
 
                 break;
             case R.id.menu_save:
-                //api Überlegung
+                Intent intent = new Intent(this, SavedShoppingActivity.class);
+                intent.putExtra("shop", shop);
+                startActivity(intent);
                 break;
 
             case R.id.menu_home:
@@ -103,6 +109,7 @@ public class ShopActivity extends AppCompatActivity {
                     if(shop.getName().equals(MainActivity.shopList.get(i).getName()))index = i;
                 }
                 MainActivity.shopList.get(index).setCurrentShoppingList(shoppingList);
+                MainActivity.shopList.get(index).setSavedShoppingItems(shop.getSavedShoppingItems());
                 finish();
                 break;
         }
