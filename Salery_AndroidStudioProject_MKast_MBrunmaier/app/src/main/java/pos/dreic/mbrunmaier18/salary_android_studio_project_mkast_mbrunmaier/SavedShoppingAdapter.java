@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,8 +38,8 @@ public class SavedShoppingAdapter extends ArrayAdapter<ShoppingItem> {
     public View getView(int i, View view, ViewGroup viewGroup) {
         ShoppingItem item = shoppingList.get(i);
         View listItem = (view == null) ? inflater.inflate(this.layoutId, null) : view;
-        ((TextView) listItem.findViewById(R.id.id_show_name)).setText(item.getName());
-        ((TextView) listItem.findViewById(R.id.id_show_price)).setText(item.getPrice().toString());
+        ((TextView) listItem.findViewById(R.id.textView_saved_name)).setText(item.getName());
+        ((TextView) listItem.findViewById(R.id.textView_saved_Price)).setText(item.getPrice().toString()+"€");
         return listItem;
     }
 }

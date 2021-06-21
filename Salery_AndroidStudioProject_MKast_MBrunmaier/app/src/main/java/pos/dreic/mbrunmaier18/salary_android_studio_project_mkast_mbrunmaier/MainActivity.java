@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         switch (id){
             case R.id.context_delete:
                 shopList.remove(listView_shops.getAdapter().getItem(info.position));
-                listView_shops.setAdapter(shopAdapter);
+                shopAdapter.notifyDataSetChanged();
                 break;
             case R.id.context_edit:
                 Shop shop = shopList.get(info.position);
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements Serializable{
                 if (previousSize + 1 == shopList.size()) {
                     shopList.remove(shop);
                 }
-
+                shopAdapter.notifyDataSetChanged();
                 break;
         }
         return super.onContextItemSelected(item);

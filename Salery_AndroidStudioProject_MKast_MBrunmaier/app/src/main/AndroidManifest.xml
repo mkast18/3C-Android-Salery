@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Salary_AndroidStudioProject_MKast_MBrunmaier">
-        <activity android:name=".AddShoppingItemActivity"></activity>
+        <activity android:name=".SavedShoppingActivity"></activity>
+        <activity android:name=".AddShoppingItemActivity" />
         <activity android:name=".AddShopActivity" />
         <activity android:name=".ShopActivity" />
         <activity android:name=".MainActivity">

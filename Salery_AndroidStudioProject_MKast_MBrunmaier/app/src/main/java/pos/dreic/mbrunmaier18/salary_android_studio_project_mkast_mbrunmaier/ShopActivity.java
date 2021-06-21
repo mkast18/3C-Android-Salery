@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.List;
 public class ShopActivity extends AppCompatActivity {
     public Shop shop;
     public ListView listView_shoppinglist;
+    public static TextView showPrice;
     public static List<ShoppingItem> shoppingList = new ArrayList();
     public CurrentShoppingAdapter shoppingAdapter;
 
@@ -31,13 +33,14 @@ public class ShopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_shoppinglist);
+        showPrice =  findViewById(R.id.textView_show_total_price);
         listView_shoppinglist = findViewById(R.id.id_list_current_shopping);
         shop = (Shop) getIntent().getSerializableExtra("shop");
         shoppingList = shop.getCurrentShoppingList();
         shoppingAdapter = new CurrentShoppingAdapter(this,R.layout.layout_current_shoppinglist,shoppingList);
         listView_shoppinglist.setAdapter(shoppingAdapter);
         registerForContextMenu(listView_shoppinglist);
-
+        showTotalPrice();
     }
 
     @Override
@@ -60,38 +63,22 @@ public class ShopActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         int id = item.getItemId();
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        ShoppingItem shoppingItem = shoppingList.get(info.position);
         switch (id){
+            case R.id.context_save:
+                if(!shop.getSavedShoppingItems().contains(shoppingItem)){
+                    shop.getSavedShoppingItems().add(shoppingItem);
+                }
+                break;
             case R.id.context_delete:
                 shoppingList.remove(listView_shoppinglist.getAdapter().getItem(info.position));
-                listView_shoppinglist.setAdapter(shoppingAdapter);
+                shoppingAdapter.notifyDataSetChanged();
+                showTotalPrice();
                 break;
             case R.id.context_edit:
-                ShoppingItem shoppingItem = (ShoppingItem) listView_shoppinglist.getAdapter().getItem(info.position);
-                LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-                View listItem =  inflater.inflate(R.layout.layout_add_shoppingitem, null);
-
-                EditText editText_itemName = listItem.findViewById(R.id.editText_add_shoppingItemName);
-                EditText editText_itemNumber = listItem.findViewById(R.id.editText_add_shoppingItemNumber);
-                EditText editText_itemPrice = listItem.findViewById(R.id.editText_add_shoppingItemPrice);
-
-                editText_itemName.setText(shoppingItem.getName());
-                editText_itemNumber.setText(shoppingItem.getNumbers());
-                editText_itemPrice.setText("1");
-
-                buildDialog(shoppingItem.getName(),null)
-                        .setView(R.layout.layout_add_shoppingitem)
-                        .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                int previousSize = shoppingList.size();
-                                shoppingList.add(new ShoppingItem(shoppingItem.getName(),shoppingItem.getNumbers(),shoppingItem.getPrice()));
-                                if (previousSize + 1 == shoppingList.size()) {
-                                    shoppingList.remove(shoppingItem);
-                                }
-                            }
-                        })
-                        .setNegativeButton("CHANCEL",null)
-                        .show();
+                int previousSize = shoppingList.size();
+                startActivity(shoppingItem,AddShoppingItemActivity.class);
+                shoppingAdapter.notifyDataSetChanged();
                 break;
         }
         return super.onContextItemSelected(item);
@@ -104,11 +91,15 @@ public class ShopActivity extends AppCompatActivity {
 
         switch (id){
             case R.id.menu_add_item:
-                    ShoppingItem ite = new ShoppingItem("","",0.00);
-                    startActivity(ite,AddShoppingItemActivity.class);
+                ShoppingItem ite = new ShoppingItem("","",0.00);
+                startActivity(ite,AddShoppingItemActivity.class);
+                shoppingAdapter.notifyDataSetChanged();
+
                 break;
             case R.id.menu_save:
-                //api Überlegung
+                Intent intent = new Intent(this, SavedShoppingActivity.class);
+                intent.putExtra("shop", shop);
+                startActivity(intent);
                 break;
 
             case R.id.menu_home:
@@ -118,6 +109,7 @@ public class ShopActivity extends AppCompatActivity {
                     if(shop.getName().equals(MainActivity.shopList.get(i).getName()))index = i;
                 }
                 MainActivity.shopList.get(index).setCurrentShoppingList(shoppingList);
+                MainActivity.shopList.get(index).setSavedShoppingItems(shop.getSavedShoppingItems());
                 finish();
                 break;
         }
@@ -126,6 +118,21 @@ public class ShopActivity extends AppCompatActivity {
 
     public AlertDialog.Builder buildDialog(String title, String message){
         return new AlertDialog.Builder(this).setTitle(title).setMessage(message);
+    }
+
+    public static void showTotalPrice(){
+        double price = 0;
+        if(!shoppingList.isEmpty()) {
+            for (ShoppingItem item : shoppingList) {
+
+                price += (item.getPrice()*Integer.parseInt(item.getNumbers()));
+            }
+            showPrice.setText(price+"€");
+        }else{
+            showPrice.setText("Keine Einträge");
+        }
+
+
     }
 
     public void startActivity(ShoppingItem item, Class cls) {
