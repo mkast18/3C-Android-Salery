@@ -7,4 +7,10 @@
         android:title="@string/add_shop"
         app:showAsAction="always"
         />
+    <item
+        android:id="@+id/menu_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="Settings"
+        app:showAsAction="always"
+        />
 </menu>

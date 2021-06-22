@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements Serializable{
     public ListView listView_shops;
     public static List<Shop> shopList = new ArrayList();
     public ShopAdapter shopAdapter;
+    public final int REQUEST_PREFERENCE = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +94,11 @@ public class MainActivity extends AppCompatActivity implements Serializable{
                 Shop shop = new Shop("");
                 startActivity(shop,AddShopActivity.class);
                 shopAdapter.notifyDataSetChanged();
+                break;
+            case R.id.menu_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivityForResult(intent, REQUEST_PREFERENCE);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

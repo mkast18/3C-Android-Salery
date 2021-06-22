@@ -13,6 +13,7 @@
         <activity android:name=".AddShoppingItemActivity" />
         <activity android:name=".AddShopActivity" />
         <activity android:name=".ShopActivity" />
+        <activity android:name=".SettingsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
