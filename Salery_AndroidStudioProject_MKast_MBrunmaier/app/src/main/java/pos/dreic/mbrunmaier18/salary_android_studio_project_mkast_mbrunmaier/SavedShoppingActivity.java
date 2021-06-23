@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,9 +20,10 @@ import java.util.List;
 
 public class SavedShoppingActivity extends AppCompatActivity {
     public ListView savedShoppingListView;
-    public List<ShoppingItem> savedItemList;
+    public static List<ShoppingItem> savedItemList;
     public SavedShoppingAdapter savedAdapter;
     public Shop shop;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +31,7 @@ public class SavedShoppingActivity extends AppCompatActivity {
         savedShoppingListView = findViewById(R.id.id_list_saved_shoppinglist);
         shop = (Shop) getIntent().getSerializableExtra("shop");
         savedItemList = shop.getSavedShoppingItems();
-        savedAdapter = new SavedShoppingAdapter(this,R.layout.layout_saved_shoppinglist,savedItemList);
+        savedAdapter = new SavedShoppingAdapter(this, R.layout.layout_saved_shoppinglist, savedItemList);
         savedShoppingListView.setAdapter(savedAdapter);
         registerForContextMenu(savedShoppingListView);
     }
@@ -54,15 +56,17 @@ public class SavedShoppingActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         int id = item.getItemId();
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        switch (id){
+        switch (id) {
             case R.id.context_saved_add:
-                shop.getCurrentShoppingList().add(shop.getSavedShoppingItems().get(info.position));
-                savedAdapter.notifyDataSetChanged();
+                startActivity(shop.getSavedShoppingItems().get(info.position), AddFromSavedShoppingItemActivity.class);
                 break;
             case R.id.context_saved_edit:
-
+                startActivity(shop.getSavedShoppingItems().get(info.position), SavedItemEditActivity.class);
+                savedAdapter.notifyDataSetChanged();
                 break;
             case R.id.context_saved_delete:
+                savedItemList.remove(savedShoppingListView.getAdapter().getItem(info.position));
+                savedAdapter.notifyDataSetChanged();
                 break;
 
         }
@@ -74,12 +78,19 @@ public class SavedShoppingActivity extends AppCompatActivity {
         int id = item.getItemId();
         Log.d("Menu select", "onOptionsItemSelected: " + id);
 
-        switch (id){
+        switch (id) {
 
             case R.id.menu_home:
+                shop.setSavedShoppingItems(savedItemList);
                 finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void startActivity(ShoppingItem item, Class cls) {
+        Intent intent = new Intent(this, cls);
+        intent.putExtra("item", item);
+        startActivity(intent);
     }
 }
