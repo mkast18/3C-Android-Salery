@@ -28,7 +28,7 @@ public class SavedItemEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 for(int i = 0;i < SavedShoppingActivity.savedItemList.size();i++){
-                    if(item.getName().equals(SavedShoppingActivity.savedItemList.get(i))){
+                    if(item.getName().equals(SavedShoppingActivity.savedItemList.get(i).getName())){
                         SavedShoppingActivity.savedItemList.get(i).setName(savedShoppingName.getText().toString());
                         SavedShoppingActivity.savedItemList.get(i).setPrice(Double.parseDouble(savedShoppingPrice.getText().toString()));
                         finish();

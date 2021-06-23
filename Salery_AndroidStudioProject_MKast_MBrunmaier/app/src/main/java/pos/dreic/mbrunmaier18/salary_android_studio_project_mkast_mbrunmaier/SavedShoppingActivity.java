@@ -58,12 +58,11 @@ public class SavedShoppingActivity extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (id) {
             case R.id.context_saved_add:
-                shop.getCurrentShoppingList().add(shop.getSavedShoppingItems().get(info.position));
-                savedAdapter.notifyDataSetChanged();
+                startActivity(shop.getSavedShoppingItems().get(info.position), AddFromSavedShoppingItemActivity.class);
                 break;
             case R.id.context_saved_edit:
                 startActivity(shop.getSavedShoppingItems().get(info.position), SavedItemEditActivity.class);
-                ShopActivity.shoppingAdapter.notifyDataSetChanged();
+                savedAdapter.notifyDataSetChanged();
                 break;
             case R.id.context_saved_delete:
                 savedItemList.remove(savedShoppingListView.getAdapter().getItem(info.position));
@@ -82,6 +81,7 @@ public class SavedShoppingActivity extends AppCompatActivity {
         switch (id) {
 
             case R.id.menu_home:
+                shop.setSavedShoppingItems(savedItemList);
                 finish();
                 break;
         }
