@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AddShoppingItemActivity">
+    tools:context=".SavedItemEditActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="650dp"
+        android:layout_height="708dp"
         android:gravity="center"
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/editText_add_shoppingItemName"
+            android:id="@+id/editText_edit_savedShoppingItemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints=""
@@ -26,19 +26,7 @@
             android:paddingBottom="20dp" />
 
         <EditText
-            android:id="@+id/editText_add_shoppingItemNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints=""
-            android:ems="10"
-            android:gravity="center"
-            android:hint="@string/numbers"
-            android:inputType="number"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp" />
-
-        <EditText
-            android:id="@+id/editText_add_shoppingItemPrice"
+            android:id="@+id/editText_edit_savedShoppingItemPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints=""
@@ -70,7 +58,7 @@
             android:text="@string/cancel" />
 
         <Button
-            android:id="@+id/id_add_shopping_Button"
+            android:id="@+id/id_save_edit_shopping_Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -78,6 +66,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:layout_weight="1"
-            android:text="@string/add" />
+            android:text="@string/save" />
     </LinearLayout>
+
 </LinearLayout>

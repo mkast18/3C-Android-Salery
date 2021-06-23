@@ -30,7 +30,7 @@ public class AddShoppingItemActivity extends AppCompatActivity {
             editText_item_price.setText(item.getPrice().toString());
 
             add_Button = findViewById(R.id.id_add_shopping_Button);
-            cancel_Button = findViewById(R.id.id_cancel_shopping_Button);
+            cancel_Button = findViewById(R.id.id_cancel_edit_shopping_Button);
             add_Button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -59,7 +59,7 @@ public class AddShoppingItemActivity extends AppCompatActivity {
 
 
             add_Button = findViewById(R.id.id_add_shopping_Button);
-            cancel_Button = findViewById(R.id.id_cancel_shopping_Button);
+            cancel_Button = findViewById(R.id.id_cancel_edit_shopping_Button);
             add_Button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

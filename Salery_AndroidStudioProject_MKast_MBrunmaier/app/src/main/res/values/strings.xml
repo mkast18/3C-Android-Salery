@@ -11,5 +11,6 @@
     <string name="shop_name">Shop Name</string>
     <string name="add">ADD</string>
     <string name="cancel">CANCEL</string>
+    <string name="save">Save</string>
 
 </resources>

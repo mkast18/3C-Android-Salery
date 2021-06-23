@@ -27,7 +27,7 @@ public class ShopActivity extends AppCompatActivity {
     public ListView listView_shoppinglist;
     public static TextView showPrice;
     public static List<ShoppingItem> shoppingList = new ArrayList();
-    public CurrentShoppingAdapter shoppingAdapter;
+    public static CurrentShoppingAdapter shoppingAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
